@@ -25,8 +25,27 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.zoombingo.ui.theme.ZoomBingoTheme
+import com.example.zoombingo.view.AppTheme
+import com.example.zoombingo.view.HomeUi
 import kotlinx.coroutines.NonCancellable.children
 
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            AppTheme {
+                Surface {
+                    HomeUi(
+                        onNewGameRequested = { /**startNewGame()**/}
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,3 +123,4 @@ fun DefaultPreview() {
     }
 
 }
+**/
