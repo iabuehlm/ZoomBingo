@@ -64,6 +64,6 @@ fun MainContent(){
 @Composable
 fun DefaultPreview() {
 
-    HomeUi( HomeViewModel.startNewGame() //Create instance   )
+   // HomeUi( HomeViewModel.startNewGame() //Create instance   )
 
 }

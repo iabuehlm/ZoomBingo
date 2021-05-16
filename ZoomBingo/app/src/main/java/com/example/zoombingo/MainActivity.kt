@@ -3,6 +3,7 @@ package com.example.zoombingo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,9 +31,11 @@ import com.example.zoombingo.view.HomeUi
 import kotlinx.coroutines.NonCancellable.children
 
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        /**
         setContent {
             AppTheme {
                 Surface {
@@ -41,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
-        }
+        }**/
     }
 }
 
