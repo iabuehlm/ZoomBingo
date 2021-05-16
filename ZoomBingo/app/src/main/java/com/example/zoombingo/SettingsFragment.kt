@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 
-class GameFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,10 +23,9 @@ class GameFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Game", fontSize = 21.sp)
+                    Text("Einstellungen", fontSize = 21.sp)
                 }
             }
         }
     }
-
 }
