@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.zoombingo.ui.theme.ZoomBingoTheme
@@ -61,11 +63,11 @@ fun MyScreenContent(view:View?) {
 fun MainTitle(text: String){
     Text(text = text,
         modifier = Modifier
-            .background(color = Color.Cyan)
             .padding(16.dp)
             .fillMaxWidth()
         ,
         style = MaterialTheme.typography.h5,
+        fontSize = 30.sp
     )
 }
 
@@ -73,24 +75,28 @@ fun MainTitle(text: String){
 fun MainContent(view: View?){
     Column() {
         Button(onClick = {
-            if (view != null) {
-                view.findNavController().navigate(R.id.action_view_gameFragment)
-            }
+            view?.findNavController()?.navigate(R.id.action_view_gameFragment)
         },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier.padding(16.dp)
             ) {
             Text(text = "Neues Spiel")
         }
         Button(onClick = {
-            if (view != null) {
-                view.findNavController().navigate(R.id.action_view_settingsFragment)
-            }
+            view?.findNavController()?.navigate(R.id.action_view_settingsFragment)
         },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier.padding(16.dp)
         ) {
             Text(text = "Einstellungen")
+        }
+        Button(onClick = {
+            view?.findNavController()?.navigate(R.id.action_view_profileFragment)
+        },
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Profil")
         }
     }
 }
