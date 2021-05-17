@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import com.example.zoombingo.view.GameUi
 
 class GameFragment : Fragment() {
 
@@ -25,6 +26,7 @@ class GameFragment : Fragment() {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Game", fontSize = 21.sp)
                 }
+                GameUi(isGameOver = false) //mit variable ersetzen
             }
         }
     }

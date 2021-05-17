@@ -39,10 +39,12 @@ class MainFragment : Fragment() {
 }
 
 @Composable
-fun MyApp(content: @Composable () -> Unit){
-    ZoomBingoTheme {
+fun MyApp(content: @Composable () -> Unit,
+          ){
+    ZoomBingoTheme(darkTheme = false) {
         // A surface container using the 'background' color from the theme
-        Surface(color = Color.White) {
+        //Surface(color = Color.White) {
+        Surface{
             content()
         }
     }
@@ -90,7 +92,7 @@ fun MainContent(view: View?){
         ) {
             Text(text = "Einstellungen")
         }
-        Button(onClick = {
+        Button(onClick = { //Vorerst hier
             view?.findNavController()?.navigate(R.id.action_view_profileFragment)
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
@@ -98,6 +100,7 @@ fun MainContent(view: View?){
         ) {
             Text(text = "Profil")
         }
+
     }
 }
 
