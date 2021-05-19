@@ -1,7 +1,9 @@
 package com.example.zoombingo.view
 
 import android.util.Log
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,7 +18,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -69,6 +71,8 @@ fun GameGrid(){
 
 @Composable
 fun GameGridItem(gridText: String){
+    var isSelected by remember { mutableStateOf(false) }
+    val backgroundColor by animateColorAsState(if (isSelected) Color.Cyan else Color.Transparent)
     Box(
         modifier = Modifier
             .border(
@@ -76,9 +80,11 @@ fun GameGridItem(gridText: String){
                 color = Color.LightGray,
                 shape = RoundedCornerShape(8.dp)
             )
-            .clickable(onClick = { clickEvent(gridText)})
+            .clickable(onClick = { clickEvent(gridText)
+                isSelected = !isSelected})
             .padding(1.dp)
             .height(75.dp)
+            .background(color = backgroundColor)
 
     )
     {
@@ -87,7 +93,9 @@ fun GameGridItem(gridText: String){
                 .align(Alignment.Center)
                 .matchParentSize(),
             textAlign = TextAlign.Center,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+
+
                 //.wrapContentSize(align = Alignment.Center, unbounded = true),
 
 //                .heightIn(min = 5.dp, max= 30.dp)
