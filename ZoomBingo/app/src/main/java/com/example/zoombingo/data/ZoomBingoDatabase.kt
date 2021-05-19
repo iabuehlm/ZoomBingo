@@ -20,11 +20,14 @@ abstract class ZoomBingoDatabase: RoomDatabase() {
             }
             else {
                 synchronized(this) {
-                    val instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        ZoomBingoDatabase::class.java,
-                        "zoomBingoDatabase"
-                    ).build()
+                    val instance = Room
+                        .databaseBuilder(
+                            context.applicationContext,
+                            ZoomBingoDatabase::class.java,
+                            "zoomBingoDatabase.db"
+                        )
+                        .createFromAsset("database/zoomBingoDatabase.db")
+                        .build()
                     INSTANCE = instance
                     return instance
                 }
