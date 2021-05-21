@@ -23,9 +23,6 @@ class GameFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Game", fontSize = 21.sp)
-                }
                 GameUi(isGameOver = false) //mit variable ersetzen
             }
         }

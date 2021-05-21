@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
@@ -32,7 +33,6 @@ class MainFragment : Fragment() {
             }
         }
         return view
-
     }
 }
 
@@ -70,6 +70,8 @@ fun MainTitle(text: String){
         fontSize = 30.sp
     )
 }
+
+
 
 @Composable
 fun MainContent(view: View?){

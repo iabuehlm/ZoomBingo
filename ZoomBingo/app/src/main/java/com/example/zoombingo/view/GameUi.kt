@@ -37,15 +37,19 @@ fun GameUi(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.app_name)) },
+                title = {
+                    Text(stringResource(R.string.app_name),
+                        textAlign = TextAlign.Center,
+                    )
+                        },
                 contentColor = Color.White,
                 backgroundColor = MaterialTheme.colors.primaryVariant,
+                elevation = 12.dp,
             )
         }
-    ) {
-        Spacer(modifier = Modifier.padding(top = 16.dp))
-        GameGrid()
 
+    ) {
+        GameGrid()
     }
     if(isGameOver){
         GameDialog(title = "Gewonnen", message = "Neues Spiel?",
@@ -54,18 +58,20 @@ fun GameUi(
 }
 
 
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GameGrid(){
-    val stringList = listOf("one", "gezwirbelter Schnauzer", "Lokomotive", "bli bla blu bli bla blu bli bla blu", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1")
+    val stringList = listOf("Bier", "gezwirbelter Schnauzer", "Lokomotive", "bli bla blu bli bla blu bli bla blu", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1")
     LazyVerticalGrid(
-        cells = GridCells.Fixed(5)
+        cells = GridCells.Fixed(5),
+        modifier = Modifier
+            .padding(15.dp)
     ) {
         items(stringList,
             itemContent = { list ->
                 GameGridItem(list)
             })
-
     }
 }
 
@@ -73,8 +79,10 @@ fun GameGrid(){
 fun GameGridItem(gridText: String){
     var isSelected by remember { mutableStateOf(false) }
     val backgroundColor by animateColorAsState(if (isSelected) Color.Cyan else Color.Transparent)
+
     Box(
         modifier = Modifier
+            .padding(1.dp)
             .border(
                 width = 1.dp,
                 color = Color.LightGray,
@@ -85,7 +93,6 @@ fun GameGridItem(gridText: String){
             .padding(1.dp)
             .height(75.dp)
             .background(color = backgroundColor)
-
     )
     {
         Text(gridText,
@@ -93,17 +100,9 @@ fun GameGridItem(gridText: String){
                 .align(Alignment.Center)
                 .matchParentSize(),
             textAlign = TextAlign.Center,
-            fontSize = 12.sp,
-
-
-                //.wrapContentSize(align = Alignment.Center, unbounded = true),
-
-//                .heightIn(min = 5.dp, max= 30.dp)
-//                .height( intrinsicSize = IntrinsicSize.Max)
+            fontSize = 12.sp
         )
-
     }
-
 }
 
 fun clickEvent(gridText: String){
@@ -114,7 +113,5 @@ fun clickEvent(gridText: String){
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreviewGame() {
-
     GameUi(isGameOver = true)
-
 }
