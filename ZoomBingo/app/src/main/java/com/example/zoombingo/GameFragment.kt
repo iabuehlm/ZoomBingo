@@ -4,26 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.zoombingo.view.GameUi
+import com.example.zoombingo.viewModel.GameViewModel
 
 class GameFragment : Fragment() {
+
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         return ComposeView(requireContext()).apply {
             setContent {
-                GameUi(isGameOver = false) //mit variable ersetzen
+                GameUi(isGameOver = false, viewModel) //mit variable ersetzen
             }
         }
     }
