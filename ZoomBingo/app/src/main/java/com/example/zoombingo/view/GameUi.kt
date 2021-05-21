@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
@@ -28,11 +27,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.zoombingo.R
+import com.example.zoombingo.viewModel.GameViewModel
 
 
 @Composable
 fun GameUi(
     isGameOver: Boolean,
+    viewModel: GameViewModel
 ) {
     Scaffold(
         topBar = {
@@ -49,9 +50,9 @@ fun GameUi(
         }
 
     ) {
-        GameGrid()
+        GameGrid(viewModel)
     }
-    if(isGameOver){
+    if(viewModel.isGameOver){
         GameDialog(title = "Gewonnen", message = "Neues Spiel?",
             onConfirmListener = { }, onDismissListener = {})
     }
@@ -61,57 +62,65 @@ fun GameUi(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GameGrid(){
-    val stringList = listOf("Bier", "gezwirbelter Schnauzer", "Lokomotive", "bli bla blu bli bla blu bli bla blu", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1","one", "two", "one", "Three", "1")
+fun GameGrid(viewModel: GameViewModel) {
+    val stringList = listOf("Bier", "gezwirbelter Schnauzer", "Lokomotive", "bli bla blu bli bla blu bli bla blu", "1","one", "2", "3", "4", "5","6", "7", "8", "9", "10","11", "22", "33", "44", "55","66", "77", "88", "99", "111")
+    val bingoList = stringList
+
     LazyVerticalGrid(
         cells = GridCells.Fixed(5),
         modifier = Modifier
             .padding(15.dp)
     ) {
-        items(stringList,
-            itemContent = { list ->
-                GameGridItem(list)
-            })
+        items(stringList
+        ) { list ->
+            GameGridItem(list, bingoList, viewModel)
+        }
     }
 }
 
 @Composable
-fun GameGridItem(gridText: String){
+fun GameGridItem(gridText: String, bingoList: List<String>, viewModel: GameViewModel){
     var isSelected by remember { mutableStateOf(false) }
     val backgroundColor by animateColorAsState(if (isSelected) Color.Cyan else Color.Transparent)
 
     Box(
         modifier = Modifier
-            .padding(1.dp)
+            .padding(2.dp)
             .border(
                 width = 1.dp,
                 color = Color.LightGray,
                 shape = RoundedCornerShape(8.dp)
             )
-            .clickable(onClick = { clickEvent(gridText)
-                isSelected = !isSelected})
-            .padding(1.dp)
+            .clickable(onClick = {
+                clickEvent(gridText, bingoList, viewModel)
+                isSelected = !isSelected
+            })
+            .padding(2.dp)
             .height(75.dp)
             .background(color = backgroundColor)
     )
     {
-        Text(gridText,
+        Text(gridText ,
             modifier = Modifier
                 .align(Alignment.Center)
                 .matchParentSize(),
             textAlign = TextAlign.Center,
             fontSize = 12.sp
         )
+
     }
+
 }
 
-fun clickEvent(gridText: String){
-    Log.d("clicked", gridText)
+fun clickEvent(gridText: String, bingoList: List<String>, viewModel: GameViewModel){
+   var index: Int =  bingoList.indexOf(gridText)
+    Log.d("bingo", index.toString())
+    viewModel.checkBingo(index)
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreviewGame() {
-    GameUi(isGameOver = true)
+    GameUi(isGameOver = true, viewModel = GameViewModel())
 }

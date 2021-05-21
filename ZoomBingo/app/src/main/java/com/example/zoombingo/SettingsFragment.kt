@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 
 class SettingsFragment : Fragment() {
@@ -24,6 +25,9 @@ class SettingsFragment : Fragment() {
             setContent {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Einstellungen", fontSize = 21.sp)
+                }
+                Column(modifier = Modifier.padding(16.dp)) {
+                    
                 }
             }
         }

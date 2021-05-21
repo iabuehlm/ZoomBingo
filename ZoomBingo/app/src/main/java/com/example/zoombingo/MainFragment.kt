@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.zoombingo.ui.theme.ZoomBingoTheme
+import com.example.zoombingo.viewModel.HomeViewModel
 
 class MainFragment : Fragment() {
 
@@ -37,11 +38,10 @@ class MainFragment : Fragment() {
 }
 
 @Composable
-fun MyApp(content: @Composable () -> Unit,
+fun MyApp(
+    content: @Composable () -> Unit,
           ){
     ZoomBingoTheme(darkTheme = false) {
-        // A surface container using the 'background' color from the theme
-        //Surface(color = Color.White) {
         Surface{
             content()
         }
@@ -70,8 +70,6 @@ fun MainTitle(text: String){
         fontSize = 30.sp
     )
 }
-
-
 
 @Composable
 fun MainContent(view: View?){
