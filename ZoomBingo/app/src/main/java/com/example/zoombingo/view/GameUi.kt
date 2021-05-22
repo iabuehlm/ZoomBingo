@@ -6,9 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -39,16 +37,19 @@ fun GameUi(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(stringResource(R.string.app_name),
-                        textAlign = TextAlign.Center,
-                    )
+                    Column(modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                        Text(
+                            stringResource(R.string.app_name),
+                        )
+                    }
                         },
-                contentColor = Color.White,
-                backgroundColor = MaterialTheme.colors.primaryVariant,
+                contentColor = MaterialTheme.colors.background,
+                backgroundColor = MaterialTheme.colors.secondary,
                 elevation = 12.dp,
             )
         }
-
     ) {
         GameGrid(viewModel)
     }
@@ -57,8 +58,6 @@ fun GameUi(
                 onConfirmListener = { viewModel.startNewGame()}, onDismissListener = {})
     }
 }
-
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -69,7 +68,8 @@ fun GameGrid(viewModel: GameViewModel) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(5),
         modifier = Modifier
-            .padding(15.dp)
+            .padding(10.dp)
+            .padding(top = 16.dp)
     ) {
         items(stringList
         ) { list ->
@@ -97,7 +97,8 @@ fun GameGridItem(gridText: String, bingoList: List<String>, viewModel: GameViewM
             })
             .padding(2.dp)
             .height(75.dp)
-            .background(color = backgroundColor)
+            .background(color = backgroundColor),
+
     )
     {
         Text(gridText ,
