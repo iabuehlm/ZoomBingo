@@ -9,7 +9,7 @@ class GameViewModel : ViewModel() {
 
     var isGameOver by mutableStateOf(false)
     var currentScore by mutableStateOf(0)
-    val bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
+    var bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
 
     init{
         startNewGame()
@@ -86,6 +86,7 @@ class GameViewModel : ViewModel() {
         if(bingoList[index] == 0)
         {
             isGameOver = true
+            currentScore.inc()
         }
     }
 }

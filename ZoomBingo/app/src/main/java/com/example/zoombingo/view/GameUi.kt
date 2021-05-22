@@ -32,9 +32,9 @@ import com.example.zoombingo.viewModel.GameViewModel
 
 @Composable
 fun GameUi(
-    isGameOver: Boolean,
     viewModel: GameViewModel
 ) {
+    val openDialog = remember { mutableStateOf(true) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,8 +53,8 @@ fun GameUi(
         GameGrid(viewModel)
     }
     if(viewModel.isGameOver){
-        GameDialog(title = "Gewonnen", message = "Neues Spiel?",
-            onConfirmListener = { }, onDismissListener = {})
+            GameDialog(title = "Gewonnen", message = "Neues Spiel?",
+                onConfirmListener = { viewModel.startNewGame()}, onDismissListener = {})
     }
 }
 
@@ -122,5 +122,5 @@ fun clickEvent(gridText: String, bingoList: List<String>, viewModel: GameViewMod
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreviewGame() {
-    GameUi(isGameOver = true, viewModel = GameViewModel())
+    GameUi( viewModel = GameViewModel())
 }

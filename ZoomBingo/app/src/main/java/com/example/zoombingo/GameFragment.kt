@@ -22,7 +22,7 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         return ComposeView(requireContext()).apply {
             setContent {
-                GameUi(isGameOver = false, viewModel) //mit variable ersetzen
+                GameUi(viewModel) //mit variable ersetzen
             }
         }
     }
