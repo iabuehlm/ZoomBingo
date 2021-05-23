@@ -17,13 +17,19 @@ class GameViewModel : ViewModel() {
 
     fun startNewGame(){
         isGameOver = false
+        bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
+        //refresh view -> clicked
+    }
+
+    fun dismissNewGameDialog(){
+        isGameOver = false
     }
 
     fun getGameState(): Boolean{
         return isGameOver
     }
 
-    fun checkBingo(currentIndex:Int)
+    fun checkBingo(currentIndex: Int, isSelected: Boolean)
     {
         var index = 0
         var verticalOne = listOf(0,5,10,15,20)
@@ -31,7 +37,6 @@ class GameViewModel : ViewModel() {
         var verticalThree = listOf(2,7,12,17,22)
         var verticalFour = listOf(3,8,13,18,23)
         //var verticalFive = listOf(4,9,14,19,24)
-
 
         if(currentIndex <= 4)
         {
@@ -53,7 +58,7 @@ class GameViewModel : ViewModel() {
             index = 4
         }
 
-        decrementBingoIndex(index)
+        updateBingoIndex(index, isSelected)
 
         if(verticalOne.contains(currentIndex))
         {
@@ -76,12 +81,17 @@ class GameViewModel : ViewModel() {
             index = 9
         }
 
-        decrementBingoIndex(index)
+        updateBingoIndex(index, isSelected)
     }
 
-    fun decrementBingoIndex(index:Int){
+    fun updateBingoIndex(index: Int, isSelected: Boolean){
         val listValue = bingoList.get(index).toInt()
-        bingoList[index] = listValue.dec()
+        if(isSelected) {
+            bingoList[index] = listValue.dec()
+        }else
+        {
+            bingoList[index] = listValue.inc()
+        }
 
         if(bingoList[index] == 0)
         {

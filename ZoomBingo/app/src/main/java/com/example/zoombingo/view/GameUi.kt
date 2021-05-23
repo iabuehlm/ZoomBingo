@@ -1,6 +1,5 @@
 package com.example.zoombingo.view
 
-import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -26,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.zoombingo.R
 import com.example.zoombingo.viewModel.GameViewModel
+import java.util.*
 
 
 @Composable
@@ -54,8 +54,10 @@ fun GameUi(
         GameGrid(viewModel)
     }
     if(viewModel.isGameOver){
-            GameDialog(title = "Gewonnen", message = "Neues Spiel?",
-                onConfirmListener = { viewModel.startNewGame()}, onDismissListener = {})
+            GameDialog(title = "Gewonnen",
+                message = "Neues Spiel?",
+                onConfirmListener = { viewModel.startNewGame()},
+                onDismissListener = {viewModel.dismissNewGameDialog()})
     }
 }
 
@@ -63,6 +65,7 @@ fun GameUi(
 @Composable
 fun GameGrid(viewModel: GameViewModel) {
     val stringList = listOf("Bier", "gezwirbelter Schnauzer", "Lokomotive", "bli bla blu bli bla blu bli bla blu", "1","one", "2", "3", "4", "5","6", "7", "8", "9", "10","11", "22", "33", "44", "55","66", "77", "88", "99", "111")
+        .shuffled(random = Random(25))
     val bingoList = stringList
 
     LazyVerticalGrid(
@@ -92,8 +95,8 @@ fun GameGridItem(gridText: String, bingoList: List<String>, viewModel: GameViewM
                 shape = RoundedCornerShape(8.dp)
             )
             .clickable(onClick = {
-                clickEvent(gridText, bingoList, viewModel)
                 isSelected = !isSelected
+                clickEvent(gridText, isSelected, bingoList, viewModel)
             })
             .padding(2.dp)
             .height(75.dp)
@@ -113,10 +116,15 @@ fun GameGridItem(gridText: String, bingoList: List<String>, viewModel: GameViewM
 
 }
 
-fun clickEvent(gridText: String, bingoList: List<String>, viewModel: GameViewModel){
-   var index: Int =  bingoList.indexOf(gridText)
-    Log.d("bingo", index.toString())
-    viewModel.checkBingo(index)
+fun clickEvent(
+    gridText: String,
+    isSelected: Boolean,
+    bingoList: List<String>,
+    viewModel: GameViewModel
+){
+    var index: Int =  bingoList.indexOf(gridText)
+    //Log.d("bingo", index.toString())
+    viewModel.checkBingo(index, isSelected)
 }
 
 
