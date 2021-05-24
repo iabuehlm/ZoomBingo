@@ -1,5 +1,6 @@
 package com.example.zoombingo.view
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -55,8 +56,8 @@ fun GameUi(
     if(viewModel.isGameOver){
             GameDialog(title = "Gewonnen",
                 message = "Neues Spiel?",
-                onConfirmListener = { viewModel.startNewGame()},
-                onDismissListener = { viewModel.dismissNewGameDialog()})
+                onConfirmListener = { viewModel.startNewGame() },
+                onDismissListener = { viewModel.dismissNewGameDialog() })
     }
 }
 
