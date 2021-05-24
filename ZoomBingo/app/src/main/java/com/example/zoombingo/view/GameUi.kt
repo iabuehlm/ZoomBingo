@@ -31,7 +31,6 @@ import com.example.zoombingo.viewModel.GameViewModel
 fun GameUi(
     viewModel: GameViewModel
 ) {
-    val openDialog = remember { mutableStateOf(true) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -110,6 +109,14 @@ fun GameGridItem(gridText: String, viewModel: GameViewModel) {
             textAlign = TextAlign.Center,
             fontSize = 12.sp
         )
+    }
+
+    if(viewModel.isGameOver){
+        DisposableEffect(Unit) {
+            onDispose {
+                isSelected = false
+            }
+        }
     }
 }
 
