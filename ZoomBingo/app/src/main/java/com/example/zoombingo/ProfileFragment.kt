@@ -35,15 +35,13 @@ class ProfileFragment : Fragment() {
 @Composable
 fun MainContent(){
     Column(modifier = Modifier
-        //.padding(16.dp)
         .fillMaxHeight()
         .fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //Text("Profil", fontSize = 21.sp)
-        val gameCount = 0//remember { mutableStateOf(false) }
-        val won = 0//remember { mutableStateOf(false) }
+        val gameCount = 0
+        val won = 0
 
         Text("Anzahl Spiele: $gameCount" , fontSize = 21.sp)
         Spacer(modifier = Modifier.padding(16.dp))

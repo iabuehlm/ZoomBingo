@@ -29,10 +29,6 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
         events = twentyFiveEvents
     }
 
-    fun dismissNewGameDialog(){
-        isGameOver = false
-    }
-
     fun checkBingo(selectedGridText: String, isSelected: Boolean)
     {
         val currentIndex: Int = events.value.orEmpty().indexOf(element = selectedGridText)

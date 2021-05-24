@@ -54,9 +54,8 @@ fun GameUi(
     }
     if(viewModel.isGameOver){
             GameDialog(title = "Gewonnen",
-                message = "Neues Spiel?",
-                onConfirmListener = { viewModel.startNewGame() },
-                onDismissListener = { viewModel.dismissNewGameDialog() })
+                message = "Herzlichen Glückwunsch!!!",
+                onConfirmListener = { viewModel.startNewGame() })
     }
 }
 

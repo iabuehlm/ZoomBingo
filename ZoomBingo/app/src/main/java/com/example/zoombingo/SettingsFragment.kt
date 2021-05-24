@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -18,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.zoombingo.ui.theme.ZoomBingoTheme
 import com.example.zoombingo.viewModel.HomeViewModel
 
 class SettingsFragment : Fragment() {
@@ -44,11 +43,7 @@ fun SettingsContent(viewModel: HomeViewModel) {
         .padding(16.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        //Text("Einstellungen", fontSize = 21.sp)
-        val gameCount = 0//remember { mutableStateOf(false) }
-        val won = 0//remember { mutableStateOf(false) }
         Text("Ganze Karte füllen zum Sieg: ", fontSize = 21.sp)
-            //SimpleSwitch(viewModel)
         Spacer(modifier = Modifier.padding(10.dp))
 
         Row(modifier = Modifier
@@ -63,11 +58,11 @@ fun SettingsContent(viewModel: HomeViewModel) {
 
 @Composable
 fun SimpleThemeSwitch(viewModel: HomeViewModel) {
-    val mRemember = remember { mutableStateOf(false) }
+    var mRemember by remember { mutableStateOf(false) }
 
-    Switch(checked = mRemember.value, onCheckedChange = {
+    Switch(checked = mRemember, onCheckedChange = {
         viewModel.toggleLightTheme()
-        mRemember.value = it
+        mRemember = it
     })
 }
 

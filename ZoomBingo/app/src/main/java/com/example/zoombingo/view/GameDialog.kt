@@ -9,14 +9,12 @@ import androidx.compose.runtime.Composable
 fun GameDialog(
     title: String,
     message: String,
-    onConfirmListener: () -> Unit,
-    onDismissListener: () -> Unit,
+    onConfirmListener: () -> Unit
 ) {
     AlertDialog(
         title = { Text(text = title) },
         text = { Text(text = message) },
         confirmButton = { TextButton(onClick = { onConfirmListener() }) { Text("OK") } },
-        dismissButton = { TextButton(onClick = { onDismissListener() }) { Text("Schliessen") } },
-        onDismissRequest = { onDismissListener() },
+        onDismissRequest = {  }
     )
 }
