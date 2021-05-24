@@ -4,15 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.zoombingo.data.GameRepository
-import kotlin.random.Random
 
 class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
 
-    private val _events = MutableLiveData<List<String>>()
-    val events: LiveData<List<String>> = _events
+    val events: LiveData<List<String>>
 
     var isGameOver by mutableStateOf(false)
     var currentScore by mutableStateOf(0)
@@ -20,19 +18,15 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
 
     init {
         startNewGame()
+        var mappedEvents = Transformations.map(gameRepository.events) { it.map { event -> event.eventText } }
+        var shuffledEvents = Transformations.map(mappedEvents) { it.shuffled() }
+        var twentyFiveEvents = Transformations.map(shuffledEvents) { it.take(25) }
+        events = twentyFiveEvents
     }
 
     fun startNewGame(){
         isGameOver = false
         bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
-        val dataFromDb = gameRepository.getEvents()
-        var tempData = dataFromDb
-        _events.postValue(tempData
-            .value
-            .orEmpty()
-            .map { event -> event.eventText }
-            .shuffled(random = Random(1337))
-            .take(25))
     }
 
     fun dismissNewGameDialog(){
