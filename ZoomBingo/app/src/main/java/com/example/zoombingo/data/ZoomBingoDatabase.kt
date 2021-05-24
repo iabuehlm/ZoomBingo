@@ -26,7 +26,7 @@ abstract class ZoomBingoDatabase: RoomDatabase() {
                             ZoomBingoDatabase::class.java,
                             "zoomBingoDatabase.db"
                         )
-                        .createFromAsset("database/zoomBingoDatabase.db")
+                        .createFromAsset("zoomBingoDatabase.db")
                         .build()
                     INSTANCE = instance
                     return instance

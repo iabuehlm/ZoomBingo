@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.zoombingo.ui.theme.ZoomBingoTheme
-import com.example.zoombingo.viewModel.GameViewModel
 import com.example.zoombingo.viewModel.HomeViewModel
 
 class MainFragment : Fragment() {
@@ -31,16 +28,15 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        val view = ComposeView(requireContext()).apply {
+        return ComposeView(requireContext()).apply {
             setContent {
-                MyApp(viewModel){
-                    MyScreenContent(view)
+                MyApp(viewModel) {
+                    MyScreenContent(this@MainFragment.view)
                 }
             }
         }
-        return view
     }
 }
 
@@ -122,7 +118,6 @@ fun MainContent(view: View?){
         ) {
             Text(text = "Profil")
         }
-
     }
 }
 

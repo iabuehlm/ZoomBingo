@@ -3,22 +3,36 @@ package com.example.zoombingo.viewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.zoombingo.data.GameRepository
+import kotlin.random.Random
 
-class GameViewModel : ViewModel() {
+class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
+
+    private val _events = MutableLiveData<List<String>>()
+    val events: LiveData<List<String>> = _events
 
     var isGameOver by mutableStateOf(false)
     var currentScore by mutableStateOf(0)
     var bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
 
-    init{
+    init {
         startNewGame()
     }
 
     fun startNewGame(){
         isGameOver = false
         bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
-        //refresh view -> clicked
+        val dataFromDb = gameRepository.getEvents()
+        var tempData = dataFromDb
+        _events.postValue(tempData
+            .value
+            .orEmpty()
+            .map { event -> event.eventText }
+            .shuffled(random = Random(1337))
+            .take(25))
     }
 
     fun dismissNewGameDialog(){
@@ -29,83 +43,73 @@ class GameViewModel : ViewModel() {
         return isGameOver
     }
 
-    fun checkBingo(currentIndex: Int, isSelected: Boolean)
+    fun checkBingo(selectedGridText: String, isSelected: Boolean)
     {
-        var index = 0
-        var verticalOne = listOf(0,5,10,15,20)
-        var verticalTwo = listOf(1,6,11,16,21)
-        var verticalThree = listOf(2,7,12,17,22)
-        var verticalFour = listOf(3,8,13,18,23)
-        //var verticalFive = listOf(4,9,14,19,24)
+        val currentIndex: Int = events.value.orEmpty().indexOf(element = selectedGridText)
+        var rowIndex = 0
+        var columnIndex = 0
+        val verticalOne = listOf(0,5,10,15,20)
+        val verticalTwo = listOf(1,6,11,16,21)
+        val verticalThree = listOf(2,7,12,17,22)
+        val verticalFour = listOf(3,8,13,18,23)
 
         if(currentIndex <= 4)
         {
         }
         else if(currentIndex <= 9)
         {
-            index = 1
+            rowIndex = 1
         }
         else if(currentIndex <= 14)
         {
-            index = 2
+            rowIndex = 2
         }
         else if(currentIndex <= 19)
         {
-            index = 3
+            rowIndex = 3
         }
         else
         {
-            index = 4
+            rowIndex = 4
         }
 
-        updateBingoIndex(index, isSelected)
+        updateBingoIndex(rowIndex, isSelected)
 
         if(verticalOne.contains(currentIndex))
         {
-            index = 5
+            columnIndex = 5
         }
         else if(verticalTwo.contains(currentIndex))
         {
-            index = 6
+            columnIndex = 6
         }
         else if(verticalThree.contains(currentIndex))
         {
-            index = 7
+            columnIndex = 7
         }
         else if(verticalFour.contains(currentIndex))
         {
-            index = 8
+            columnIndex = 8
         }
         else
         {
-            index = 9
+            columnIndex = 9
         }
 
-        updateBingoIndex(index, isSelected)
+        updateBingoIndex(columnIndex, isSelected)
     }
 
     fun updateBingoIndex(index: Int, isSelected: Boolean){
-        val listValue = bingoList.get(index).toInt()
-        if(isSelected) {
+        val listValue = bingoList.get(index)
+        if (isSelected) {
             bingoList[index] = listValue.dec()
-        }else
-        {
+        } else {
             bingoList[index] = listValue.inc()
         }
 
-        if(bingoList[index] == 0)
-        {
+        if (bingoList[index] == 0) {
             isGameOver = true
             currentScore.inc()
         }
     }
 }
-
-
-
-
-
-
-
-
-

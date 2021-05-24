@@ -9,20 +9,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.zoombingo.view.GameUi
 import com.example.zoombingo.viewModel.GameViewModel
+import com.example.zoombingo.viewModel.GameViewModelFactory
 
 class GameFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
+    private lateinit var viewModelFactory: GameViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModelFactory = GameViewModelFactory(this.requireContext())
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GameViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
+    ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                GameUi(viewModel) //mit variable ersetzen
+                GameUi(viewModel)
             }
         }
     }
