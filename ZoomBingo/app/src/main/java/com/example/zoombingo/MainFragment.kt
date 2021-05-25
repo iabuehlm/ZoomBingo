@@ -9,8 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,8 +23,8 @@ import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.zoombingo.ui.theme.ZoomBingoTheme
 import com.example.zoombingo.view.GameUi
+import com.example.zoombingo.view.ProfileUi
 import com.example.zoombingo.view.SettingsContent
-import com.example.zoombingo.view.*
 import com.example.zoombingo.viewModel.GameViewModel
 import com.example.zoombingo.viewModel.GameViewModelFactory
 
@@ -75,7 +75,27 @@ fun MyApp(
         darkTheme = viewModel.isDark.value
     ) {
         Surface{
-            content()
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                Text(
+                                    stringResource(R.string.app_name),
+                                )
+                            }
+                        },
+                        contentColor = MaterialTheme.colors.onPrimary,
+                        backgroundColor = MaterialTheme.colors.secondary,
+                        elevation = 12.dp,
+                    )
+                }
+            ) {
+                content()
+            }
         }
     }
 }
@@ -83,8 +103,7 @@ fun MyApp(
 @Composable
 fun MyScreenContent(viewModel: GameViewModel, navController: NavController) {
     Column(modifier = Modifier.fillMaxHeight()) {
-        MainTitle(text = "Zoom Bingo")
-        Spacer(modifier = Modifier.padding(top = 10.dp))
+        Spacer(modifier = Modifier.padding(top = 16.dp))
         MainContent(navController, viewModel = viewModel)
     }
 }
@@ -106,38 +125,33 @@ fun MainContent(navController: NavController, viewModel: GameViewModel){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxHeight()
+            .padding(top = 150.dp, bottom = 180.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
     ) {
         Button(onClick = {
             viewModel.startNewGame()
             navController.navigate("GameUi")
         },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth()
+                .width(200.dp)
         ) {
             Text(text = "Neues Spiel")
         }
         Button(onClick = {
             navController.navigate("SettingsUi")
         },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth()
+                .width(200.dp)
         ) {
             Text(text = "Einstellungen")
         }
         Button(onClick = {
             navController.navigate("ProfileUI")
         },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth()
+                .width(200.dp)
         ) {
             Text(text = "Profil")
         }

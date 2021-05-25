@@ -1,57 +1,35 @@
 package com.example.zoombingo.view
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.zoombingo.R
 import com.example.zoombingo.viewModel.GameViewModel
 
 @Composable
 fun GameUi(
     viewModel: GameViewModel
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column(modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                        Text(
-                            stringResource(R.string.app_name),
-                        )
-                    }
-                        },
-                contentColor = MaterialTheme.colors.background,
-                backgroundColor = MaterialTheme.colors.secondary,
-                elevation = 12.dp,
-            )
-        }
-    ) {
-        Spacer(modifier = Modifier.padding(top = 16.dp))
-        GameGrid(viewModel)
-    }
+    GameGrid(viewModel)
+
     if(viewModel.isGameOver){
             GameDialog(title = "Gewonnen",
                 message = "Herzlichen Glückwunsch!!!",
@@ -80,7 +58,7 @@ fun GameGrid(viewModel: GameViewModel) {
 fun GameGridItem(gridText: String, viewModel: GameViewModel) {
 
     var isSelected by remember { mutableStateOf(false) }
-    val backgroundColor by animateColorAsState(if (isSelected) Color.Cyan else Color.Transparent)
+    val backgroundColor by animateColorAsState(if (isSelected) MaterialTheme.colors.secondary else Color.Transparent)
 
     Box(
         modifier = Modifier
@@ -97,7 +75,6 @@ fun GameGridItem(gridText: String, viewModel: GameViewModel) {
             .padding(2.dp)
             .height(75.dp)
             .background(color = backgroundColor),
-
         )
     {
         Text(
