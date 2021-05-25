@@ -4,30 +4,60 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.example.zoombingo.PreferenceHelper
 import com.example.zoombingo.data.GameRepository
 
 class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
+    private val GAMES_PLAYED = "gamesPlayed"
+    private val GAMES_WON = "gamesWon"
+
+    private val gamesPlayed: MutableLiveData<Int> = MutableLiveData()
+    private val gamesWon: MutableLiveData<Int> = MutableLiveData()
+
+    fun getGamesPlayed(): LiveData<Int> {
+        return gamesPlayed
+    }
+
+    fun getGamesWon(): LiveData<Int> {
+        return gamesWon
+    }
 
     lateinit var events: LiveData<List<String>>
     val isDark = mutableStateOf(false)
 
     var isGameOver by mutableStateOf(false)
-    var currentScore by mutableStateOf(0)
     var bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
 
     init {
-        startNewGame()
+        gamesPlayed.value = PreferenceHelper.getPreferenceValue(GAMES_PLAYED)
+        gamesWon.value = PreferenceHelper.getPreferenceValue(GAMES_WON)
     }
 
     fun startNewGame(){
+        incrementGamesPlayedPreferences()
         isGameOver = false
         bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
-        var mappedEvents = Transformations.map(gameRepository.events) { it.map { event -> event.eventText } }
-        var shuffledEvents = Transformations.map(mappedEvents) { it.shuffled() }
-        var twentyFiveEvents = Transformations.map(shuffledEvents) { it.take(25) }
+        val mappedEvents = Transformations.map(gameRepository.events) { it.map { event -> event.eventText } }
+        val shuffledEvents = Transformations.map(mappedEvents) { it.shuffled() }
+        val twentyFiveEvents = Transformations.map(shuffledEvents) { it.take(25) }
         events = twentyFiveEvents
+    }
+
+    fun incrementGamesPlayedPreferences() {
+        val storedValue = PreferenceHelper.getPreferenceValue(GAMES_PLAYED)
+        val newValue = storedValue + 1
+        PreferenceHelper.setPreferenceValue(GAMES_PLAYED, newValue)
+        gamesPlayed.value = newValue
+    }
+
+    fun incrementGamesWonPreferences() {
+        val storedValue = PreferenceHelper.getPreferenceValue(GAMES_WON)
+        val newValue = storedValue + 1
+        PreferenceHelper.setPreferenceValue(GAMES_WON, newValue)
+        gamesWon.value = newValue
     }
 
     fun checkBingo(selectedGridText: String, isSelected: Boolean)
@@ -96,7 +126,7 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
 
         if (bingoList[index] == 0) {
             isGameOver = true
-            currentScore.inc()
+            incrementGamesWonPreferences()
         }
     }
 

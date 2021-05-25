@@ -61,7 +61,7 @@ fun AppNavigator(viewModel: GameViewModel) {
         composable("MyZoomBingoApp") { MyScreenContent(viewModel, navController)};
         composable("GameUi"){ GameUi(viewModel = viewModel) }
         composable("SettingsUi"){ SettingsContent(viewModel) }
-        composable("ProfileUi"){ MainContent() }
+        composable("ProfileUi"){ ProfileUi(viewModel) }
     }
 }
 
@@ -81,13 +81,11 @@ fun MyApp(
 }
 
 @Composable
-fun MyScreenContent(view: GameViewModel, navController: NavController) {
-    //val textState = remember { mutableStateOf(0) }
-
+fun MyScreenContent(viewModel: GameViewModel, navController: NavController) {
     Column(modifier = Modifier.fillMaxHeight()) {
         MainTitle(text = "Zoom Bingo")
         Spacer(modifier = Modifier.padding(top = 10.dp))
-        MainContent(navController)
+        MainContent(navController, viewModel = viewModel)
     }
 }
 
@@ -104,17 +102,16 @@ fun MainTitle(text: String){
 }
 
 @Composable
-fun MainContent(navController: NavController){
+fun MainContent(navController: NavController, viewModel: GameViewModel){
     Column(
         modifier = Modifier
-            //.padding(10.dp)
             .fillMaxWidth()
             .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Button(onClick = {
-            //view?.findNavController()?.navigate(R.id.action_view_gameFragment)
+            viewModel.startNewGame()
             navController.navigate("GameUi")
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
@@ -125,7 +122,6 @@ fun MainContent(navController: NavController){
             Text(text = "Neues Spiel")
         }
         Button(onClick = {
-            //view?.findNavController()?.navigate(R.id.action_view_gameFragment)
             navController.navigate("SettingsUi")
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
@@ -136,7 +132,6 @@ fun MainContent(navController: NavController){
             Text(text = "Einstellungen")
         }
         Button(onClick = {
-            //view?.findNavController()?.navigate(R.id.action_view_gameFragment)
             navController.navigate("ProfileUI")
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
@@ -146,7 +141,6 @@ fun MainContent(navController: NavController){
         ) {
             Text(text = "Profil")
         }
-
     }
 }
 
