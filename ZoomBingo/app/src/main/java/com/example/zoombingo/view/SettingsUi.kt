@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 import com.example.zoombingo.viewModel.GameViewModel
 
 @Composable
-fun SettingsContent(viewModel: GameViewModel) {
+fun SettingsUi(viewModel: GameViewModel) {
     Column(modifier = Modifier
         .padding(16.dp),
         horizontalAlignment = Alignment.Start,
