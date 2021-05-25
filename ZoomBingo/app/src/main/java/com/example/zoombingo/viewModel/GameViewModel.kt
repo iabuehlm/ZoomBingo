@@ -98,4 +98,10 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
             currentScore.inc()
         }
     }
+
+    val isDark = mutableStateOf(false)
+
+    fun toggleLightTheme(){
+        isDark.value = !isDark.value
+    }
 }

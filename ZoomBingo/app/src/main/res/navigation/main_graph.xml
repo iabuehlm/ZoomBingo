@@ -7,27 +7,5 @@
     <fragment
         android:id="@+id/mainFragment2"
         android:name="com.example.zoombingo.MainFragment"
-        android:label="MainFragment" >
-        <action
-            android:id="@+id/action_view_gameFragment"
-            app:destination="@id/gameFragment" />
-        <action
-            android:id="@+id/action_view_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_view_settingsFragment"
-            app:destination="@id/settingsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/gameFragment"
-        android:name="com.example.zoombingo.GameFragment"
-        android:label="GameFragment" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.zoombingo.ProfileFragment"
-        android:label="ProfileFragment" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.zoombingo.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="MainFragment" />
 </navigation>

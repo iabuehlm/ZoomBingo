@@ -16,24 +16,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.zoombingo.ui.theme.ZoomBingoTheme
-import com.example.zoombingo.viewModel.HomeViewModel
+import com.example.zoombingo.view.GameUi
+import com.example.zoombingo.view.SettingsContent
+import com.example.zoombingo.view.*
+import com.example.zoombingo.viewModel.GameViewModel
+import com.example.zoombingo.viewModel.GameViewModelFactory
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: GameViewModel
+    private lateinit var viewModelFactory: GameViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        viewModelFactory = GameViewModelFactory(this.requireContext())
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GameViewModel::class.java)
         return ComposeView(requireContext()).apply {
             setContent {
-                MyApp(viewModel) {
-                    MyScreenContent(this@MainFragment.view)
+                MyApp(viewModel = viewModel) {
+                    AppNavigator(viewModel)
                 }
             }
         }
@@ -41,8 +51,23 @@ class MainFragment : Fragment() {
 }
 
 @Composable
+fun AppNavigator(viewModel: GameViewModel) {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "MyZoomBingoApp"
+    ){
+        composable("MyZoomBingoApp") { MyScreenContent(viewModel, navController)};
+        composable("GameUi"){ GameUi(viewModel = viewModel) }
+        composable("SettingsUi"){ SettingsContent(viewModel) }
+        composable("ProfileUi"){ MainContent() }
+    }
+}
+
+@Composable
 fun MyApp(
-        viewModel: HomeViewModel,
+    viewModel: GameViewModel,
         content: @Composable () -> Unit,
     )
 {
@@ -56,13 +81,13 @@ fun MyApp(
 }
 
 @Composable
-fun MyScreenContent(view:View?) {
+fun MyScreenContent(view: GameViewModel, navController: NavController) {
     //val textState = remember { mutableStateOf(0) }
 
     Column(modifier = Modifier.fillMaxHeight()) {
         MainTitle(text = "Zoom Bingo")
         Spacer(modifier = Modifier.padding(top = 10.dp))
-        MainContent(view)
+        MainContent(navController)
     }
 }
 
@@ -79,7 +104,7 @@ fun MainTitle(text: String){
 }
 
 @Composable
-fun MainContent(view: View?){
+fun MainContent(navController: NavController){
     Column(
         modifier = Modifier
             //.padding(10.dp)
@@ -89,17 +114,19 @@ fun MainContent(view: View?){
         verticalArrangement = Arrangement.Center,
     ) {
         Button(onClick = {
-            view?.findNavController()?.navigate(R.id.action_view_gameFragment)
+            //view?.findNavController()?.navigate(R.id.action_view_gameFragment)
+            navController.navigate("GameUi")
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
                 .padding(20.dp)
                 .fillMaxWidth()
-            ) {
+        ) {
             Text(text = "Neues Spiel")
         }
         Button(onClick = {
-            view?.findNavController()?.navigate(R.id.action_view_settingsFragment)
+            //view?.findNavController()?.navigate(R.id.action_view_gameFragment)
+            navController.navigate("SettingsUi")
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
@@ -108,8 +135,9 @@ fun MainContent(view: View?){
         ) {
             Text(text = "Einstellungen")
         }
-        Button(onClick = { //Vorerst hier
-            view?.findNavController()?.navigate(R.id.action_view_profileFragment)
+        Button(onClick = {
+            //view?.findNavController()?.navigate(R.id.action_view_gameFragment)
+            navController.navigate("ProfileUI")
         },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan),
             modifier = Modifier
@@ -118,6 +146,7 @@ fun MainContent(view: View?){
         ) {
             Text(text = "Profil")
         }
+
     }
 }
 
