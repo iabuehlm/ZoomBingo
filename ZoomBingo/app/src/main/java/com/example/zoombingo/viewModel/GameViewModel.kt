@@ -11,6 +11,7 @@ import com.example.zoombingo.data.GameRepository
 class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
 
     lateinit var events: LiveData<List<String>>
+    val isDark = mutableStateOf(false)
 
     var isGameOver by mutableStateOf(false)
     var currentScore by mutableStateOf(0)
@@ -98,8 +99,6 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
             currentScore.inc()
         }
     }
-
-    val isDark = mutableStateOf(false)
 
     fun toggleLightTheme(){
         isDark.value = !isDark.value
