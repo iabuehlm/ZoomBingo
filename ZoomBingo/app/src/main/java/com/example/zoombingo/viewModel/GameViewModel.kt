@@ -11,30 +11,27 @@ import com.example.zoombingo.PreferenceHelper
 import com.example.zoombingo.data.GameRepository
 
 class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
+
     private val GAMES_PLAYED = "gamesPlayed"
     private val GAMES_WON = "gamesWon"
-
     private val gamesPlayed: MutableLiveData<Int> = MutableLiveData()
     private val gamesWon: MutableLiveData<Int> = MutableLiveData()
 
-    fun getGamesPlayed(): LiveData<Int> {
-        return gamesPlayed
-    }
-
-    fun getGamesWon(): LiveData<Int> {
-        return gamesWon
-    }
-
-    lateinit var events: LiveData<List<String>>
     val isDark = mutableStateOf(false)
 
+    private var bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
+
+    lateinit var events: LiveData<List<String>>
     var isGameOver by mutableStateOf(false)
-    var bingoList = mutableListOf(5,5,5,5,5,5,5,5,5,5)
 
     init {
         gamesPlayed.value = PreferenceHelper.getPreferenceValue(GAMES_PLAYED)
         gamesWon.value = PreferenceHelper.getPreferenceValue(GAMES_WON)
     }
+
+    fun getGamesPlayed(): LiveData<Int> { return gamesPlayed }
+
+    fun getGamesWon(): LiveData<Int> { return gamesWon }
 
     fun startNewGame(){
         incrementGamesPlayedPreferences()
@@ -46,78 +43,76 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
         events = twentyFiveEvents
     }
 
-    fun incrementGamesPlayedPreferences() {
+    fun checkBingo(selectedGridText: String, isSelected: Boolean) {
+        val currentIndex: Int = events.value.orEmpty().indexOf(element = selectedGridText)
+        val column1 = listOf(0,5,10,15,20)
+        val column2 = listOf(1,6,11,16,21)
+        val column3 = listOf(2,7,12,17,22)
+        val column4 = listOf(3,8,13,18,23)
+        var rowIndex: Int
+        var columnIndex: Int
+
+        when {
+            currentIndex <= 4 -> {
+                rowIndex = 0
+            }
+            currentIndex <= 9 -> {
+                rowIndex = 1
+            }
+            currentIndex <= 14 -> {
+                rowIndex = 2
+            }
+            currentIndex <= 19 -> {
+                rowIndex = 3
+            }
+            else -> {
+                rowIndex = 4
+            }
+        }
+
+        updateBingoIndex(rowIndex, isSelected)
+
+        when {
+            column1.contains(currentIndex) -> {
+                columnIndex = 5
+            }
+            column2.contains(currentIndex) -> {
+                columnIndex = 6
+            }
+            column3.contains(currentIndex) -> {
+                columnIndex = 7
+            }
+            column4.contains(currentIndex) -> {
+                columnIndex = 8
+            }
+            else -> {
+                columnIndex = 9
+            }
+        }
+
+        updateBingoIndex(columnIndex, isSelected)
+    }
+
+    fun toggleLightTheme(){
+        isDark.value = !isDark.value
+    }
+
+    private fun incrementGamesPlayedPreferences() {
         val storedValue = PreferenceHelper.getPreferenceValue(GAMES_PLAYED)
         val newValue = storedValue + 1
         PreferenceHelper.setPreferenceValue(GAMES_PLAYED, newValue)
         gamesPlayed.value = newValue
     }
 
-    fun incrementGamesWonPreferences() {
+    private fun incrementGamesWonPreferences() {
         val storedValue = PreferenceHelper.getPreferenceValue(GAMES_WON)
         val newValue = storedValue + 1
         PreferenceHelper.setPreferenceValue(GAMES_WON, newValue)
         gamesWon.value = newValue
     }
 
-    fun checkBingo(selectedGridText: String, isSelected: Boolean)
-    {
-        val currentIndex: Int = events.value.orEmpty().indexOf(element = selectedGridText)
-        var rowIndex = 0
-        var columnIndex = 0
-        val verticalOne = listOf(0,5,10,15,20)
-        val verticalTwo = listOf(1,6,11,16,21)
-        val verticalThree = listOf(2,7,12,17,22)
-        val verticalFour = listOf(3,8,13,18,23)
-
-        if(currentIndex <= 4)
-        {
-        }
-        else if(currentIndex <= 9)
-        {
-            rowIndex = 1
-        }
-        else if(currentIndex <= 14)
-        {
-            rowIndex = 2
-        }
-        else if(currentIndex <= 19)
-        {
-            rowIndex = 3
-        }
-        else
-        {
-            rowIndex = 4
-        }
-
-        updateBingoIndex(rowIndex, isSelected)
-
-        if(verticalOne.contains(currentIndex))
-        {
-            columnIndex = 5
-        }
-        else if(verticalTwo.contains(currentIndex))
-        {
-            columnIndex = 6
-        }
-        else if(verticalThree.contains(currentIndex))
-        {
-            columnIndex = 7
-        }
-        else if(verticalFour.contains(currentIndex))
-        {
-            columnIndex = 8
-        }
-        else
-        {
-            columnIndex = 9
-        }
-
-        updateBingoIndex(columnIndex, isSelected)
-    }
-
-    fun updateBingoIndex(index: Int, isSelected: Boolean){
-        val listValue = bingoList.get(index)
+    private fun updateBingoIndex(index: Int, isSelected: Boolean){
+        val listValue = bingoList[index]
         if (isSelected) {
             bingoList[index] = listValue.dec()
         } else {
@@ -128,9 +123,5 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
             isGameOver = true
             incrementGamesWonPreferences()
         }
-    }
-
-    fun toggleLightTheme(){
-        isDark.value = !isDark.value
     }
 }

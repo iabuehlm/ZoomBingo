@@ -18,7 +18,7 @@ private val DarkColorPalette = darkColors(
     onPrimary = Color.White,
     onSecondary = Color.White,
     onBackground = Color.White,
-    onSurface = Color.White,
+    onSurface = Color.White
 )
 
 @SuppressLint("ConflictingOnColor")
@@ -31,9 +31,8 @@ private val LightColorPalette = lightColors(
     onPrimary = DarkBlue,
     onSecondary = Dark,
     onBackground = Dark,
-    onSurface = Dark,
-
-    )
+    onSurface = Dark
+)
 
 @Composable
 fun ZoomBingoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {

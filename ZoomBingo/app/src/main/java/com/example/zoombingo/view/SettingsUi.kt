@@ -12,15 +12,12 @@ import com.example.zoombingo.viewModel.GameViewModel
 
 @Composable
 fun SettingsUi(viewModel: GameViewModel) {
-    Column(modifier = Modifier
-        .padding(16.dp),
+    Column(
+        modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        Text("Ganze Karte füllen zum Sieg: ", fontSize = 21.sp)
-        Spacer(modifier = Modifier.padding(10.dp))
-
-        Row(modifier = Modifier
-            .fillMaxWidth(),
+        Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text("Theme dark mode: " , fontSize = 21.sp)
@@ -33,8 +30,11 @@ fun SettingsUi(viewModel: GameViewModel) {
 fun SimpleThemeSwitch(viewModel: GameViewModel) {
     var mRemember by remember { mutableStateOf(false) }
 
-    Switch(checked = mRemember, onCheckedChange = {
-        viewModel.toggleLightTheme()
-        mRemember = it
-    })
+    Switch(
+        checked = mRemember,
+        onCheckedChange = {
+            viewModel.toggleLightTheme()
+            mRemember = it
+        }
+    )
 }

@@ -14,7 +14,13 @@ fun GameDialog(
     AlertDialog(
         title = { Text(text = title) },
         text = { Text(text = message) },
-        confirmButton = { TextButton(onClick = { onConfirmListener() }) { Text("OK") } },
+        confirmButton = {
+            TextButton(
+                onClick = { onConfirmListener() }
+            ) {
+                Text("OK")
+            }
+                        },
         onDismissRequest = {  }
     )
 }

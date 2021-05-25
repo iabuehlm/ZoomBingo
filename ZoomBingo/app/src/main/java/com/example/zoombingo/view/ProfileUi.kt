@@ -22,9 +22,3 @@ fun ProfileUi(viewModel: GameViewModel){
         Text("Davon gewonnen: ${viewModel.getGamesWon().value}", fontSize = 21.sp)
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreviewProfile() {
-//    ProfileUi()
-//}

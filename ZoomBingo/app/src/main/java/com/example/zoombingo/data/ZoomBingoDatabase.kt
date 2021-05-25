@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [Event::class], version = 1, exportSchema = false)
 abstract class ZoomBingoDatabase: RoomDatabase() {
+
     abstract fun eventDao(): EventDao
 
     companion object {

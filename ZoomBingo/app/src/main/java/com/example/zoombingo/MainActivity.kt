@@ -34,16 +34,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        preferences = getSharedPreferences( getPackageName() + "_preferences", MODE_PRIVATE);
-
+        preferences = getSharedPreferences( packageName + "_preferences", MODE_PRIVATE)
         viewModelFactory = GameViewModelFactory(this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(GameViewModel::class.java)
-
         super.onCreate(savedInstanceState)
         setContent {
             ZoomBingoApp(viewModel = viewModel) {
-                Navigation(viewModel)
+                Navigation(viewModel = viewModel)
             }
         }
     }
@@ -57,10 +54,10 @@ fun Navigation(viewModel: GameViewModel) {
         navController = navController,
         startDestination = "MainMenuUi"
     ) {
-        composable("MainMenuUi") { MainMenuUi(viewModel, navController)};
+        composable("MainMenuUi") { MainMenuUi(viewModel = viewModel, navController) }
         composable("GameUi"){ GameUi(viewModel = viewModel) }
-        composable("SettingsUi"){ SettingsUi(viewModel) }
-        composable("ProfileUi"){ ProfileUi(viewModel) }
+        composable("SettingsUi"){ SettingsUi(viewModel = viewModel) }
+        composable("ProfileUi"){ ProfileUi(viewModel = viewModel) }
     }
 }
 
@@ -99,7 +96,10 @@ fun ZoomBingoApp(
 }
 
 @Composable
-fun MainMenuUi(viewModel: GameViewModel, navController: NavController) {
+fun MainMenuUi(
+    viewModel: GameViewModel,
+    navController: NavController
+) {
     Column(modifier = Modifier.fillMaxHeight()) {
         Spacer(modifier = Modifier.padding(top = 16.dp))
         MainMenuButtons(navController, viewModel = viewModel)
@@ -107,7 +107,10 @@ fun MainMenuUi(viewModel: GameViewModel, navController: NavController) {
 }
 
 @Composable
-fun MainMenuButtons(navController: NavController, viewModel: GameViewModel){
+fun MainMenuButtons(
+    navController: NavController,
+    viewModel: GameViewModel
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

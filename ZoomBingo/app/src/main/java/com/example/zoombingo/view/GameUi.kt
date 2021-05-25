@@ -29,11 +29,12 @@ fun GameUi(
     viewModel: GameViewModel
 ) {
     GameGrid(viewModel)
-
     if(viewModel.isGameOver){
-            GameDialog(title = "Gewonnen",
+            GameDialog(
+                title = "Gewonnen",
                 message = "Herzlichen Glückwunsch!!!",
-                onConfirmListener = { viewModel.startNewGame() })
+                onConfirmListener = { viewModel.startNewGame() }
+            )
     }
 }
 
@@ -56,9 +57,11 @@ fun GameGrid(viewModel: GameViewModel) {
 
 @Composable
 fun GameGridItem(gridText: String, viewModel: GameViewModel) {
-
     var isSelected by remember { mutableStateOf(false) }
-    val backgroundColor by animateColorAsState(if (isSelected) MaterialTheme.colors.secondary else Color.Transparent)
+    val backgroundColor by animateColorAsState(
+        if (isSelected) MaterialTheme.colors.secondary
+        else Color.Transparent
+    )
 
     Box(
         modifier = Modifier
@@ -75,8 +78,7 @@ fun GameGridItem(gridText: String, viewModel: GameViewModel) {
             .padding(2.dp)
             .height(75.dp)
             .background(color = backgroundColor),
-        )
-    {
+    ) {
         Text(
             gridText,
             modifier = Modifier
@@ -103,9 +105,3 @@ fun clickEvent(
 ) {
     viewModel.checkBingo(gridText, isSelected)
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreviewGame() {
-//    GameUi(viewModel = GameViewModelFactory.create())
-//}
